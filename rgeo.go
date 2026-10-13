@@ -183,10 +183,14 @@ func firstNonEmpty(s ...string) string {
 
 // Get the relevant strings from the GeoJSON properties.
 func getLocationStrings(p map[string]interface{}) Location {
+	isocode2 := getPropertyString(p, "ISO_A2_EH")
+	if isocode2 == "-99" || isocode2 == "" {
+		isocode2 = getPropertyString(p, "ISO_A2")
+	}
 	return Location{
 		Country:      getPropertyString(p, "ADMIN", "admin"),
 		CountryLong:  getPropertyString(p, "FORMAL_EN"),
-		CountryCode2: getPropertyString(p, "ISO_A2"),
+		CountryCode2: isocode2,
 		CountryCode3: getPropertyString(p, "ISO_A3"),
 		Continent:    getPropertyString(p, "CONTINENT"),
 		Region:       getPropertyString(p, "REGION_UN"),
